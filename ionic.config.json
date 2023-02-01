@@ -1,8 +1,7 @@
 {
-  "name": "InstaBorder",
+  "name": "insta-border",
   "integrations": {
     "capacitor": {}
   },
-  "type": "react",
-  "id": "b03e8bb3"
+  "type": "react"
 }
