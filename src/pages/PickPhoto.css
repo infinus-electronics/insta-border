@@ -1,5 +1,6 @@
-ion-icon {
+ion-icon.pick {
   font-size: 64px;
+  color: var(--ion-color-medium);
   
 }
 

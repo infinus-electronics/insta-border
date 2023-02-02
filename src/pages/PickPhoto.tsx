@@ -36,7 +36,7 @@ const PickPhoto: React.FC = () => {
         <IonGrid>
           <IonRow class='ion-justify-content-center ion-align-items-center'>
             <IonCol>            
-              <IonIcon icon={addCircleOutline} color="medium"></IonIcon>             
+              <IonIcon icon={addCircleOutline} class="pick" color="medium"></IonIcon>             
             </IonCol>
           </IonRow>
           <IonRow class='ion-justify-content-center ion-align-items-center'>
