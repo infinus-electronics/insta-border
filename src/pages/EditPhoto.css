@@ -1,6 +1,6 @@
 ion-avatar{
-    max-width: 40px;
-    max-height: 40px;
+    width: 32px;
+    height: 32px;
 }
 
 ion-icon{
