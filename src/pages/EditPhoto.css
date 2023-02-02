@@ -1,22 +1,20 @@
-ion-avatar{
-    width: 32px;
-    height: 32px;
+ion-avatar {
+  width: 32px;
+  height: 32px;
 }
 
-ion-icon{
-    font-size: 18px;
-    
+ion-icon {
+  font-size: 18px;
 }
 
-ion-col.button{
-    text-align: right;
+ion-col.button {
+  text-align: right;
 }
 
-ion-col.profile{
-    text-align: left;
+ion-col.profile {
+  text-align: left;
 }
 
-ion-image.selected{
-    width: 100%;
+ion-image.selected {
+  width: 100%;
 }
-
