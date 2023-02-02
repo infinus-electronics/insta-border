@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { isPlatform } from "@ionic/react";
+import { useHistory } from "react-router-dom";
 
 import {
   Camera,
@@ -33,13 +34,15 @@ export function usePhotoGalleryFromCamera() {
   const takePhoto = async () => {
     const photo = await Camera.getPhoto({
         resultType: CameraResultType.Uri,
-        source: CameraSource.Prompt,
+        source: CameraSource.Photos,
     });
     setSelectedPhoto(photo);
+    
   };
 
   return {
     takePhoto,
     selectedPhoto,
+    
   };
 }
