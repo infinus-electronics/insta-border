@@ -26,7 +26,7 @@ const Tab2: React.FC = () => {
           <IonTitle>Tab 2</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent>
+      <IonContent onClick={() => takePhoto()}>
         <IonImg src={selectedPhoto?.webPath} />
         {/* <IonText>{selectedPhoto?.webPath}</IonText> */}
         <IonFab vertical="bottom" horizontal="center" slot="fixed">
