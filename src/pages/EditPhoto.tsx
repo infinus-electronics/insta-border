@@ -33,7 +33,7 @@ const EditPhoto: React.FC = () => {
 
   useEffect(() => {
     takePhoto();
-    console.log("Fired");
+    // console.log("Fired");
   }, []);
 
   return (
