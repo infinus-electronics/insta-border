@@ -1,6 +1,7 @@
 import { Photo } from "@capacitor/camera";
 import { IonImg, IonSkeletonText } from "@ionic/react";
 import Jimp from "jimp";
+import sharp from 'sharp';
 import { useEffect, useState } from "react";
 
 interface PhotoProps {
@@ -27,34 +28,48 @@ const ProcessedImage: React.FC<PhotoProps> = ({ photo, percentage }) => {
     //   console.log(inImagePath);
       let outImage = new Jimp(instagram, instagram, "#FFFFFF");
 
-      Jimp.read(inImagePath)
-        .then((image) => {
-            // console.log(image.bitmap.width);
-            // console.log(Math.floor((instagram * (100-border)) / 100))
-          image.scaleToFit(
-            Math.floor((instagram * (100-border)) / 100),
-            Math.floor((instagram * (100-border)) / 100),
-            Jimp.RESIZE_BILINEAR,
-            (err, croppedImg) => {
-              if (err) throw err;
-            //   console.log(croppedImg.bitmap.width)
+    //   Jimp.read(inImagePath)
+    //     .then((image) => {
+    //         // console.log(image.bitmap.width);
+    //         // console.log(Math.floor((instagram * (100-border)) / 100))
+    //       image.scaleToFit(
+    //         Math.floor((instagram * (100-border)) / 100),
+    //         Math.floor((instagram * (100-border)) / 100),
+    //         Jimp.RESIZE_BILINEAR,
+    //         (err, croppedImg) => {
+    //           if (err) throw err;
+    //         //   console.log(croppedImg.bitmap.width)
 
-              let x = Math.floor((instagram - croppedImg.getWidth()) / 2);
-              let y = Math.floor((instagram - croppedImg.getHeight()) / 2);
-              outImage.composite(croppedImg, x, y);
-              outImage.getBase64(Jimp.MIME_JPEG, (err, data) => {
-                // console.log(data);
-                if (err) throw err;
-                // setData(`data:image/jpeg;base64,${data}`)
-                setOutData(data);
+    //           let x = Math.floor((instagram - croppedImg.getWidth()) / 2);
+    //           let y = Math.floor((instagram - croppedImg.getHeight()) / 2);
+    //           outImage.composite(croppedImg, x, y);
+    //           outImage.getBase64(Jimp.MIME_JPEG, (err, data) => {
+    //             // console.log(data);
+    //             if (err) throw err;
+    //             // setData(`data:image/jpeg;base64,${data}`)
+    //             setOutData(data);
                 
-              });
-            }
-          );
+    //           });
+    //         }
+    //       );
+    //     })
+    //     .catch((err) => {
+    //       throw err;
+    //     });
+
+        await sharp(inImagePath)
+        .resize(
+        {
+            width: Math.floor((instagram * (100-border)) / 100),
+            height: Math.floor((instagram * (100-border)) / 100),
+            fit: sharp.fit.inside,
+            background: { r: 255, g: 255, b: 255, alpha: 1 }
         })
-        .catch((err) => {
-          throw err;
-        });
+        .toFormat("jpeg", { mozjpeg: true })
+        .toBuffer()
+        .then((buffer) => setOutData(buffer.toString('base64')));
+            
+        
 
       
     };
