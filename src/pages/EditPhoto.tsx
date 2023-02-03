@@ -56,7 +56,12 @@ const EditPhoto: React.FC = () => {
             </IonCol>
           </IonRow>
           <div>
-            <ProcessedImage photo={selectedPhoto} />
+            {selectedPhoto === undefined ? 
+            <IonSkeletonText
+                         animated={true}
+                         style={{ aspectRatio: "1/1" }}
+                       ></IonSkeletonText> :
+            <ProcessedImage photo={selectedPhoto} />}
           </div>
 
           <IonRow>
