@@ -17,6 +17,9 @@ import {
   IonThumbnail,
   IonRange,
   IonLabel,
+  IonFabButton,
+  IonFab,
+  IonToast,
 } from "@ionic/react";
 import { useEffect, useRef, useState } from "react";
 import { usePhotoGalleryFromCamera } from "../hooks/useGallery";
@@ -29,12 +32,16 @@ import {
   bookmarkOutline,
   addOutline,
   removeOutline,
+  saveOutline
 } from "ionicons/icons";
 import ProcessedImageCanvas from "../components/ProcessedImageCanvas";
+import { saveImage } from "../hooks/savePhoto";
 
 const EditPhoto: React.FC = () => {
   const { takePhoto, selectedPhoto } = usePhotoGalleryFromCamera();
+  const { processImage } = saveImage();
   const [borderPercentage, setBorderPercentage] = useState<number>(7);
+  const [doneSaving, setDoneSaving] = useState(false);
 
   useEffect(() => {
     takePhoto();
@@ -134,15 +141,22 @@ const EditPhoto: React.FC = () => {
           <IonRow class="ion-padding-horizontal">
             <IonCol class="ion-padding=horizontal">
               <IonRange
-                class="ion-no-padding"
-                debounce={80}
-                onIonChange={(e) => {
-                  setBorderPercentage(e.target.value as number);
-                }}
+                class="ion-no-padding"                
+                value={borderPercentage}
+                onIonChange={(e) => setBorderPercentage(e.target.value as number)}
               ></IonRange>
             </IonCol>
           </IonRow>
         </IonCard>
+        <IonFab slot="fixed" horizontal="center" vertical="bottom">
+          <IonFabButton onClick={() => {
+            if (selectedPhoto !== undefined && selectedPhoto.dataUrl !== undefined){
+            processImage(selectedPhoto, borderPercentage, setDoneSaving)};
+          }}>
+            <IonIcon icon={saveOutline}></IonIcon>
+          </IonFabButton>
+        </IonFab>
+        <IonToast isOpen={doneSaving} onDidDismiss={() => setDoneSaving(false)} message="Saved!" duration={1500} />
       </IonContent>
     </IonPage>
   );

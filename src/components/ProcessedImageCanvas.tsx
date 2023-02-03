@@ -2,6 +2,7 @@ import { Photo } from "@capacitor/camera";
 import { IonImg, IonSkeletonText } from "@ionic/react";
 // import Jimp from "jimp";
 import { useEffect, useRef, useState } from "react";
+import "./ProcessedImageCanvas.css"
 
 
 interface PhotoProps {
