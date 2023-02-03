@@ -41,7 +41,7 @@ const EditPhoto: React.FC = () => {
       <IonContent>
         <IonCard>
           <IonRow class="ion-align-items-center ion-justify-content-center">
-            <IonCol size="auto" class="ion-padding">
+            <IonCol size="auto" class="ion-padding-start ion-padding-end">
               <IonAvatar>
                 <IonImg src="https://ionicframework.com/docs/img/demos/avatar.svg" />
               </IonAvatar>
@@ -51,20 +51,12 @@ const EditPhoto: React.FC = () => {
                 <strong>infinus</strong>
               </IonText>
             </IonCol>
-            <IonCol size="auto">
-              <IonIcon icon={ellipsisHorizontal} class="ion-padding" />
+            <IonCol size="auto" class = "ion-padding">
+              <IonIcon icon={ellipsisHorizontal}/>
             </IonCol>
           </IonRow>
           <div>
-            {selectedPhoto === undefined ? (
-              <IonSkeletonText
-                animated={true}
-                style={{ aspectRatio: "1/1" }}
-              ></IonSkeletonText>
-            ) : (
-              // <IonImg class="selected" src={selectedPhoto?.webPath} />
-              <ProcessedImage photo={selectedPhoto} />
-            )}
+            <ProcessedImage photo={selectedPhoto} />
           </div>
 
           <IonRow>
