@@ -33,7 +33,7 @@ export function usePhotoGalleryFromCamera() {
 
   const takePhoto = async () => {
     const photo = await Camera.getPhoto({
-        resultType: CameraResultType.Uri,
+        resultType: CameraResultType.DataUrl,
         source: CameraSource.Photos,
     });
     setSelectedPhoto(photo);
