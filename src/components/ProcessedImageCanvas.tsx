@@ -1,7 +1,7 @@
 import { Photo } from "@capacitor/camera";
 import { IonImg, IonSkeletonText } from "@ionic/react";
 // import Jimp from "jimp";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import "./ProcessedImageCanvas.css"
 
 
@@ -14,12 +14,14 @@ const ProcessedImageCanvas : React.FC<PhotoProps> = ({ photo, percentage }) => {
 
     // const [finishedCanvas, setFinishedCanvas] = useState<string>()
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const [unmounted, setUnmounted] = useState(true);
+    
 
     useEffect(() => {
-        // console.log("mounted")
-    if(unmounted){
+        // console.log("called")
+        // console.log(photo)
+    
       let canvas = canvasRef.current!;
+      // console.log(canvas)
     let ctx = canvas.getContext("2d")!;
     let oc = document.createElement('canvas');
     let octx = oc.getContext('2d')!;
@@ -34,8 +36,9 @@ const ProcessedImageCanvas : React.FC<PhotoProps> = ({ photo, percentage }) => {
     let img = new Image();
     if(photo !== undefined){
       img.src = photo.dataUrl!;
-      setUnmounted(false)
+      
     }    
+    // console.log(img)
 
     let targetHeight = 0;
     let targetWidth = 0;
@@ -68,14 +71,14 @@ const ProcessedImageCanvas : React.FC<PhotoProps> = ({ photo, percentage }) => {
 
       let dx = Math.floor((instagram-targetWidth)/2);
       let dy = Math.floor((instagram-targetHeight)/2);
-      ctx.drawImage(img, 0, 0, img.width, img.height, dx, dy, targetWidth, targetHeight);}
+      ctx.drawImage(img, 0, 0, img.width, img.height, dx, dy, targetWidth, targetHeight);
 
       return () => {
-        setUnmounted(true)
+        
       }
 
     //   setFinishedCanvas(canvas.toDataURL("image/jpeg")!);
-    },[photo?.dataUrl, percentage, unmounted]);
+    },[photo, percentage]);
 
     return (<canvas ref={canvasRef}/>);
 }

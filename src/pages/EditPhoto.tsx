@@ -69,17 +69,13 @@ const EditPhoto: React.FC = () => {
           </IonRow>
           <IonRow class="ion-align-items-center ion-justify-content-center">
             <IonCol>
-              {selectedPhoto === undefined ? (
-                <IonSkeletonText
-                  animated={true}
-                  style={{ aspectRatio: "1/1" }}
-                ></IonSkeletonText>
-              ) : (
+              
+              
                 <ProcessedImageCanvas
                   photo={selectedPhoto}
                   percentage={borderPercentage}
                 />
-              )}
+              
             </IonCol>
           </IonRow>
 
