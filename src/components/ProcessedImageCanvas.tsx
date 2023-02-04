@@ -6,7 +6,7 @@ import "./ProcessedImageCanvas.css"
 
 
 interface PhotoProps {
-  photo: Photo;
+  photo: Photo | undefined;
   percentage: number;
 }
 
@@ -14,10 +14,12 @@ const ProcessedImageCanvas : React.FC<PhotoProps> = ({ photo, percentage }) => {
 
     // const [finishedCanvas, setFinishedCanvas] = useState<string>()
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const [unmounted, setUnmounted] = useState(true);
 
     useEffect(() => {
         // console.log("mounted")
-    let canvas = canvasRef.current!;
+    if(unmounted){
+      let canvas = canvasRef.current!;
     let ctx = canvas.getContext("2d")!;
     let oc = document.createElement('canvas');
     let octx = oc.getContext('2d')!;
@@ -30,7 +32,10 @@ const ProcessedImageCanvas : React.FC<PhotoProps> = ({ photo, percentage }) => {
    ctx.fillRect(0, 0, instagram, instagram);
 
     let img = new Image();
-    img.src = photo.dataUrl!;
+    if(photo !== undefined){
+      img.src = photo.dataUrl!;
+      setUnmounted(false)
+    }    
 
     let targetHeight = 0;
     let targetWidth = 0;
@@ -63,10 +68,14 @@ const ProcessedImageCanvas : React.FC<PhotoProps> = ({ photo, percentage }) => {
 
       let dx = Math.floor((instagram-targetWidth)/2);
       let dy = Math.floor((instagram-targetHeight)/2);
-      ctx.drawImage(img, 0, 0, img.width, img.height, dx, dy, targetWidth, targetHeight);
+      ctx.drawImage(img, 0, 0, img.width, img.height, dx, dy, targetWidth, targetHeight);}
+
+      return () => {
+        setUnmounted(true)
+      }
 
     //   setFinishedCanvas(canvas.toDataURL("image/jpeg")!);
-    },[photo, percentage]);
+    },[photo?.dataUrl, percentage, unmounted]);
 
     return (<canvas ref={canvasRef}/>);
 }
