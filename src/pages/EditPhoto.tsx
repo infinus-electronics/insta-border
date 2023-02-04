@@ -179,7 +179,7 @@ const EditPhoto: React.FC = () => {
             <IonIcon icon={dark ? sunnyOutline : moonOutline}></IonIcon>
           </IonFabButton>
         </IonFab>
-        <IonToast position="middle" isOpen={doneSaving} onDidDismiss={() => setDoneSaving(false)} message="Saved!" duration={1500} />
+        <IonToast position="bottom" isOpen={doneSaving} onDidDismiss={() => setDoneSaving(false)} message="Saved!" duration={1500} />
       </IonContent>
     </IonPage>
   );
