@@ -3,6 +3,8 @@ import { Directory, Filesystem } from "@capacitor/filesystem";
 import { IonImg, IonSkeletonText, useIonToast } from "@ionic/react";
 import Jimp from "jimp";
 import { useEffect, useState } from "react";
+import MediaScanner from "./MediaScan";
+
 
 interface PhotoURL{
     dataUrl?: string | undefined,
@@ -13,9 +15,14 @@ interface PhotoURL{
 export function saveImage(){
 
 
-  const processImage = async (photoURL: PhotoURL, percentage :number, setDoneSaving: React.Dispatch<React.SetStateAction<boolean>>) => {
+  const processImage = async (photoURL: PhotoURL, percentage :number, setDoneSaving: React.Dispatch<React.SetStateAction<boolean>>, setCanSave: React.Dispatch<React.SetStateAction<boolean>>) => {
+    setCanSave(false);
+    setTimeout(() => {
+      
+    
     const instagram: number = 1080;
     const border: number = percentage;
+    
     
     // console.log("called")
 
@@ -40,12 +47,18 @@ export function saveImage(){
             outImage.composite(croppedImg, x, y);
             outImage.getBase64(Jimp.MIME_JPEG, async (err, data) => {
                 const fileName = new Date().getTime() + '.jpg';
-                await Filesystem.writeFile({
+                try {let res = await Filesystem.writeFile({
                     path: `/storage/emulated/0/Pictures/${fileName}`,
                     data: data,
                     
                   });
+                  MediaScanner.mediaScan({fileUri: res.uri});
                   setDoneSaving(true);
+                  setCanSave(true);}
+                  catch(err){
+                    setCanSave(true);
+                    throw err;
+                  }
                 // console.log(data);
               if (err) throw err;
               // setData(`data:image/jpeg;base64,${data}`)
@@ -55,9 +68,11 @@ export function saveImage(){
         );
       })
       .catch((err) => {
+        setCanSave(true);
         throw err;
       });
-  };
+  }, 100);
+};
 
   return{
     processImage
