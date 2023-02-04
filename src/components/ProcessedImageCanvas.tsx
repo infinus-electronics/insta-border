@@ -6,7 +6,7 @@ import "./ProcessedImageCanvas.css"
 
 
 interface PhotoProps {
-  photo: Photo;
+  photo: Photo | undefined;
   percentage: number;
 }
 
@@ -30,7 +30,9 @@ const ProcessedImageCanvas : React.FC<PhotoProps> = ({ photo, percentage }) => {
    ctx.fillRect(0, 0, instagram, instagram);
 
     let img = new Image();
-    img.src = photo.dataUrl!;
+    if(photo !== undefined){
+      img.src = photo.dataUrl!;
+    }    
 
     let targetHeight = 0;
     let targetWidth = 0;

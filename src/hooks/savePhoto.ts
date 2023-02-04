@@ -3,6 +3,7 @@ import { Directory, Filesystem } from "@capacitor/filesystem";
 import { IonImg, IonSkeletonText, useIonToast } from "@ionic/react";
 import Jimp from "jimp";
 import { useEffect, useState } from "react";
+import { Media } from '@capacitor-community/media';
 
 interface PhotoURL{
     dataUrl?: string | undefined,
@@ -13,7 +14,7 @@ interface PhotoURL{
 export function saveImage(){
 
 
-  const processImage = async (photoURL: PhotoURL, percentage :number, setDoneSaving: React.Dispatch<React.SetStateAction<boolean>>) => {
+  const processImage = async (photoURL: PhotoURL, percentage :number, setDoneSaving: React.Dispatch<React.SetStateAction<string|undefined>>) => {
     const instagram: number = 1080;
     const border: number = percentage;
     
@@ -39,13 +40,16 @@ export function saveImage(){
             let y = Math.floor((instagram - croppedImg.getHeight()) / 2);
             outImage.composite(croppedImg, x, y);
             outImage.getBase64(Jimp.MIME_JPEG, async (err, data) => {
-                const fileName = new Date().getTime() + '.jpg';
-                await Filesystem.writeFile({
-                    path: `/storage/emulated/0/Pictures/${fileName}`,
-                    data: data,
+                // const fileName = new Date().getTime() + '.jpg';
+                // await Filesystem.writeFile({
+                //     path: `/storage/emulated/0/Pictures/${fileName}`,
+                //     data: data,
                     
-                  });
-                  setDoneSaving(true);
+                //   });
+                // console.log(data);
+                Media.getAlbums().then(console.log).then(console.log);
+                Media.savePhoto({path: data, album:"Pictures"}).then(console.log).catch(console.log);
+                //   setDoneSaving(res.filePath);
                 // console.log(data);
               if (err) throw err;
               // setData(`data:image/jpeg;base64,${data}`)

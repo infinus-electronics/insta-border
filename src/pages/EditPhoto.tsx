@@ -41,7 +41,7 @@ const EditPhoto: React.FC = () => {
   const { takePhoto, selectedPhoto } = usePhotoGalleryFromCamera();
   const { processImage } = saveImage();
   const [borderPercentage, setBorderPercentage] = useState<number>(7);
-  const [doneSaving, setDoneSaving] = useState(false);
+  const [doneSaving, setDoneSaving] = useState<string>();
 
   useEffect(() => {
     takePhoto();
@@ -69,17 +69,13 @@ const EditPhoto: React.FC = () => {
           </IonRow>
           <IonRow class="ion-align-items-center ion-justify-content-center">
             <IonCol>
-              {selectedPhoto === undefined ? (
-                <IonSkeletonText
-                  animated={true}
-                  style={{ aspectRatio: "1/1" }}
-                ></IonSkeletonText>
-              ) : (
+              
+              
                 <ProcessedImageCanvas
                   photo={selectedPhoto}
                   percentage={borderPercentage}
                 />
-              )}
+              
             </IonCol>
           </IonRow>
 
@@ -156,7 +152,7 @@ const EditPhoto: React.FC = () => {
             <IonIcon icon={saveOutline}></IonIcon>
           </IonFabButton>
         </IonFab>
-        <IonToast isOpen={doneSaving} onDidDismiss={() => setDoneSaving(false)} message="Saved!" duration={1500} />
+        <IonToast isOpen={doneSaving !== undefined} onDidDismiss={() => setDoneSaving(undefined)} message="Saved!" duration={1500} />
       </IonContent>
     </IonPage>
   );
