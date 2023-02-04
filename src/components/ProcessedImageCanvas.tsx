@@ -65,7 +65,7 @@ const ProcessedImageCanvas: React.FC<PhotoProps> = ({ photo, percentage }) => {
     }, [photo])
 
     useEffect(() => {
-        console.log("called")
+        // console.log("called")
         // console.log(photo)
 
         let canvas = canvasRef.current!;
