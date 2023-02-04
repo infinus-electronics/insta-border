@@ -20,6 +20,7 @@ import {
   IonFabButton,
   IonFab,
   IonToast,
+  IonSpinner,
 } from "@ionic/react";
 import { useEffect, useRef, useState } from "react";
 import { usePhotoGalleryFromCamera } from "../hooks/useGallery";
@@ -150,7 +151,8 @@ const EditPhoto: React.FC = () => {
             if (selectedPhoto !== undefined && selectedPhoto.dataUrl !== undefined && canSave){
             processImage(selectedPhoto, borderPercentage, setDoneSaving, setCanSave)};
           }}>
-            <IonIcon icon={saveOutline}></IonIcon>
+            {canSave ? <IonIcon icon={saveOutline}></IonIcon> :
+            <IonSpinner name="crescent"></IonSpinner>}
           </IonFabButton>
         </IonFab>
         <IonToast isOpen={doneSaving} onDidDismiss={() => setDoneSaving(false)} message="Saved!" duration={1500} />

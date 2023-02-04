@@ -43,14 +43,18 @@ export function saveImage(){
             outImage.composite(croppedImg, x, y);
             outImage.getBase64(Jimp.MIME_JPEG, async (err, data) => {
                 const fileName = new Date().getTime() + '.jpg';
-                let res = await Filesystem.writeFile({
+                try {let res = await Filesystem.writeFile({
                     path: `/storage/emulated/0/Pictures/${fileName}`,
                     data: data,
                     
                   });
                   MediaScanner.mediaScan({fileUri: res.uri});
                   setDoneSaving(true);
-                  setCanSave(true);
+                  setCanSave(true);}
+                  catch(err){
+                    setCanSave(true);
+                    throw err;
+                  }
                 // console.log(data);
               if (err) throw err;
               // setData(`data:image/jpeg;base64,${data}`)
