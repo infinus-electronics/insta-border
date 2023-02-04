@@ -15,9 +15,10 @@ interface PhotoURL{
 export function saveImage(){
 
 
-  const processImage = async (photoURL: PhotoURL, percentage :number, setDoneSaving: React.Dispatch<React.SetStateAction<boolean>>) => {
+  const processImage = async (photoURL: PhotoURL, percentage :number, setDoneSaving: React.Dispatch<React.SetStateAction<boolean>>, setCanSave: React.Dispatch<React.SetStateAction<boolean>>) => {
     const instagram: number = 1080;
     const border: number = percentage;
+    setCanSave(false);
     
     // console.log("called")
 
@@ -49,6 +50,7 @@ export function saveImage(){
                   });
                   MediaScanner.mediaScan({fileUri: res.uri});
                   setDoneSaving(true);
+                  setCanSave(true);
                 // console.log(data);
               if (err) throw err;
               // setData(`data:image/jpeg;base64,${data}`)
@@ -58,6 +60,7 @@ export function saveImage(){
         );
       })
       .catch((err) => {
+        setCanSave(true);
         throw err;
       });
   };

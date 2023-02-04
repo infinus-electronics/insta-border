@@ -41,7 +41,8 @@ const EditPhoto: React.FC = () => {
   const { takePhoto, selectedPhoto } = usePhotoGalleryFromCamera();
   const { processImage } = saveImage();
   const [borderPercentage, setBorderPercentage] = useState<number>(7);
-  const [doneSaving, setDoneSaving] = useState(false);
+  const [doneSaving, setDoneSaving] = useState(true);
+  const [canSave, setCanSave] = useState(true);
 
   useEffect(() => {
     takePhoto();
@@ -146,8 +147,8 @@ const EditPhoto: React.FC = () => {
         </IonCard>
         <IonFab slot="fixed" horizontal="center" vertical="bottom">
           <IonFabButton onClick={() => {
-            if (selectedPhoto !== undefined && selectedPhoto.dataUrl !== undefined){
-            processImage(selectedPhoto, borderPercentage, setDoneSaving)};
+            if (selectedPhoto !== undefined && selectedPhoto.dataUrl !== undefined && canSave){
+            processImage(selectedPhoto, borderPercentage, setDoneSaving, setCanSave)};
           }}>
             <IonIcon icon={saveOutline}></IonIcon>
           </IonFabButton>
