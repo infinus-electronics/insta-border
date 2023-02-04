@@ -3,6 +3,8 @@ import { Directory, Filesystem } from "@capacitor/filesystem";
 import { IonImg, IonSkeletonText, useIonToast } from "@ionic/react";
 import Jimp from "jimp";
 import { useEffect, useState } from "react";
+import MediaScanner from "./MediaScan";
+
 
 interface PhotoURL{
     dataUrl?: string | undefined,
@@ -40,11 +42,12 @@ export function saveImage(){
             outImage.composite(croppedImg, x, y);
             outImage.getBase64(Jimp.MIME_JPEG, async (err, data) => {
                 const fileName = new Date().getTime() + '.jpg';
-                await Filesystem.writeFile({
+                let res = await Filesystem.writeFile({
                     path: `/storage/emulated/0/Pictures/${fileName}`,
                     data: data,
                     
                   });
+                  MediaScanner.mediaScan({fileUri: res.uri});
                   setDoneSaving(true);
                 // console.log(data);
               if (err) throw err;
