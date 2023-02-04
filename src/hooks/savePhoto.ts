@@ -16,9 +16,13 @@ export function saveImage(){
 
 
   const processImage = async (photoURL: PhotoURL, percentage :number, setDoneSaving: React.Dispatch<React.SetStateAction<boolean>>, setCanSave: React.Dispatch<React.SetStateAction<boolean>>) => {
+    setCanSave(false);
+    setTimeout(() => {
+      
+    
     const instagram: number = 1080;
     const border: number = percentage;
-    setCanSave(false);
+    
     
     // console.log("called")
 
@@ -67,7 +71,8 @@ export function saveImage(){
         setCanSave(true);
         throw err;
       });
-  };
+  }, 100);
+};
 
   return{
     processImage

@@ -147,12 +147,11 @@ const EditPhoto: React.FC = () => {
           </IonRow>
         </IonCard>
         <IonFab slot="fixed" horizontal="center" vertical="bottom">
-          <IonFabButton onClick={() => {
+          <IonFabButton disabled={!canSave} onClick={() => {
             if (selectedPhoto !== undefined && selectedPhoto.dataUrl !== undefined && canSave){
             processImage(selectedPhoto, borderPercentage, setDoneSaving, setCanSave)};
           }}>
-            {canSave ? <IonIcon icon={saveOutline}></IonIcon> :
-            <IonSpinner name="crescent"></IonSpinner>}
+            <IonIcon icon={saveOutline}></IonIcon>
           </IonFabButton>
         </IonFab>
         <IonToast isOpen={doneSaving} onDidDismiss={() => setDoneSaving(false)} message="Saved!" duration={1500} />
