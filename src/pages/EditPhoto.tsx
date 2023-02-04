@@ -41,7 +41,7 @@ const EditPhoto: React.FC = () => {
   const { takePhoto, selectedPhoto } = usePhotoGalleryFromCamera();
   const { processImage } = saveImage();
   const [borderPercentage, setBorderPercentage] = useState<number>(7);
-  const [doneSaving, setDoneSaving] = useState(true);
+  const [doneSaving, setDoneSaving] = useState(false);
   const [canSave, setCanSave] = useState(true);
 
   useEffect(() => {
