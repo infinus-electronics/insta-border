@@ -22,7 +22,7 @@ import {
   IonToast,
   IonSpinner,
 } from "@ionic/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { usePhotoGalleryFromCamera } from "../hooks/useGallery";
 import "./EditPhoto.css";
 import {
@@ -33,10 +33,14 @@ import {
   bookmarkOutline,
   addOutline,
   removeOutline,
-  saveOutline
+  saveOutline,
+  moon,
+  moonOutline,
+  sunnyOutline
 } from "ionicons/icons";
 import ProcessedImageCanvas from "../components/ProcessedImageCanvas";
 import { saveImage } from "../hooks/savePhoto";
+import toggleDarkTheme from "../hooks/toggleDark";
 
 const EditPhoto: React.FC = () => {
   const { takePhoto, selectedPhoto } = usePhotoGalleryFromCamera();
@@ -44,6 +48,19 @@ const EditPhoto: React.FC = () => {
   const [borderPercentage, setBorderPercentage] = useState<number>(7);
   const [doneSaving, setDoneSaving] = useState(false);
   const [canSave, setCanSave] = useState(true);
+  const [dark, setDark] = useState(false);
+
+  useLayoutEffect(()=>{
+    const preferDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    setDark(preferDark);
+    window.matchMedia('(prefers-color-scheme: dark)').onchange = (e) => {
+      setDark(e.matches);
+    }
+  }, []);
+
+  useLayoutEffect(() => {
+    toggleDarkTheme(dark);
+  }, [dark]);
 
   useEffect(() => {
     takePhoto();
@@ -154,7 +171,15 @@ const EditPhoto: React.FC = () => {
             <IonIcon icon={saveOutline}></IonIcon>
           </IonFabButton>
         </IonFab>
-        <IonToast isOpen={doneSaving} onDidDismiss={() => setDoneSaving(false)} message="Saved!" duration={1500} />
+
+        <IonFab slot="fixed" horizontal="end" vertical="bottom">
+          <IonFabButton color="dark" size="small" onClick={() => {
+            setDark(!dark)
+          }}>
+            <IonIcon icon={dark ? sunnyOutline : moonOutline}></IonIcon>
+          </IonFabButton>
+        </IonFab>
+        <IonToast position="middle" isOpen={doneSaving} onDidDismiss={() => setDoneSaving(false)} message="Saved!" duration={1500} />
       </IonContent>
     </IonPage>
   );

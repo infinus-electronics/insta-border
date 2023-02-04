@@ -20,10 +20,28 @@ import ExploreContainer from "../components/ExploreContainer";
 import { usePhotoGalleryFromCamera } from "../hooks/useGallery";
 import { useHistory } from "react-router-dom";
 import "./PickPhoto.css";
+import { useEffect, useLayoutEffect, useState } from "react";
+import toggleDarkTheme from "../hooks/toggleDark";
 
 const PickPhoto: React.FC = () => {
   const { takePhoto, selectedPhoto } = usePhotoGalleryFromCamera();
   const history = useHistory();
+  const [dark, setDark] = useState(false);
+  
+
+  useLayoutEffect(()=>{
+    const preferDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    setDark(preferDark);
+    window.matchMedia('(prefers-color-scheme: dark)').onchange = (e) => {
+      setDark(e.matches);
+    }
+  }, []);
+
+  useLayoutEffect(() => {
+    toggleDarkTheme(dark);
+  }, [dark]);
+
+  
   return (
     <IonPage>
       <IonContent
