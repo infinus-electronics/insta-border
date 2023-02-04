@@ -71,7 +71,7 @@ export function saveImage(){
         setCanSave(true);
         throw err;
       });
-  });
+  }, 100);
 };
 
   return{
