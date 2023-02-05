@@ -31,14 +31,14 @@ export function saveImage(){
     let outImage = new Jimp(instagram, instagram, "#FFFFFF");
 
     Jimp.read(Buffer.from(inImageArr, 'base64'))
-      .then((image) => {
+      .then(async (image) => {
         // console.log(image.bitmap.width);
         // console.log(Math.floor((instagram * (100-border)) / 100))
         image.scaleToFit(
           Math.floor((instagram * (100 - border)) / 100),
           Math.floor((instagram * (100 - border)) / 100),
           Jimp.RESIZE_BICUBIC,
-          (err, croppedImg) => {
+          async (err, croppedImg) => {
             if (err) throw err;
             //   console.log(croppedImg.bitmap.width)
 
