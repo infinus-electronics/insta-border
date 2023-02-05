@@ -50,15 +50,18 @@ const EditPhoto: React.FC = () => {
   const [canSave, setCanSave] = useState(true);
   const [dark, setDark] = useState(false);
 
-  useLayoutEffect(()=>{
+  
+
+  useEffect(()=>{
     const preferDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     setDark(preferDark);
+    toggleDarkTheme(dark);
     window.matchMedia('(prefers-color-scheme: dark)').onchange = (e) => {
       setDark(e.matches);
     }
   }, []);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     toggleDarkTheme(dark);
   }, [dark]);
 
