@@ -33,7 +33,8 @@ import {
   bookmarkOutline,
   addOutline,
   removeOutline,
-  saveOutline
+  saveOutline,
+  peopleCircle
 } from "ionicons/icons";
 import ProcessedImageCanvas from "../components/ProcessedImageCanvas";
 import { saveImage } from "../hooks/savePhoto";
@@ -55,9 +56,9 @@ const EditPhoto: React.FC = () => {
       <IonContent fullscreen={true}>
         <IonCard>
           <IonRow class="ion-align-items-center ion-justify-content-center">
-            <IonCol size="auto" class="ion-padding-start ion-padding-end">
+            <IonCol size="auto" class="ion-padding-start">
               <IonAvatar>
-                <IonImg src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+              <IonIcon icon={peopleCircle} color="dark"></IonIcon>
               </IonAvatar>
             </IonCol>
             <IonCol class="text-left">
