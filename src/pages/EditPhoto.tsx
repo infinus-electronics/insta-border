@@ -22,7 +22,7 @@ import {
   IonToast,
   IonSpinner,
 } from "@ionic/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { usePhotoGalleryFromCamera } from "../hooks/useGallery";
 import "./EditPhoto.css";
 import {
@@ -38,6 +38,13 @@ import {
 } from "ionicons/icons";
 import ProcessedImageCanvas from "../components/ProcessedImageCanvas";
 import { saveImage } from "../hooks/savePhoto";
+const JSONfn = require('json-fn');
+
+interface PhotoURL{
+  dataUrl?: string | undefined,
+  format: string
+}
+
 
 const EditPhoto: React.FC = () => {
   const { takePhoto, selectedPhoto } = usePhotoGalleryFromCamera();
@@ -45,11 +52,39 @@ const EditPhoto: React.FC = () => {
   const [borderPercentage, setBorderPercentage] = useState<number>(7);
   const [doneSaving, setDoneSaving] = useState(false);
   const [canSave, setCanSave] = useState(true);
+  const [errMessage, setErrMessage] = useState<string>();
 
   useEffect(() => {
     takePhoto();
     // console.log("Fired");
   }, []);
+
+  const imageSave: Worker = useMemo(
+    () => new Worker(new URL("../hooks/processImage.ts", import.meta.url)),
+    []
+  );
+
+  useEffect(() => {
+    if(window.Worker){
+      imageSave.onmessage=(e: MessageEvent<string>) => {
+        const message = e.data;
+        console.log(message)
+        if(message === "done"){
+          setCanSave(true);
+          setDoneSaving(true);
+        }
+        else if(message === "busy"){
+          setCanSave(false);
+          // setDoneSaving(false);
+        }
+        else{
+          setCanSave(true);
+          setDoneSaving(true);
+          setErrMessage(message);
+        }
+      }
+        }
+  }, [imageSave])
 
   return (
     <IonPage>
@@ -150,12 +185,13 @@ const EditPhoto: React.FC = () => {
         <IonFab slot="fixed" horizontal="center" vertical="bottom">
           <IonFabButton disabled={!canSave} onClick={() => {
             if (selectedPhoto !== undefined && selectedPhoto.dataUrl !== undefined && canSave){
-            processImage(selectedPhoto, borderPercentage, setDoneSaving, setCanSave)};
-          }}>
+            imageSave.postMessage(JSON.stringify({photoURL: selectedPhoto, percentage: borderPercentage}));
+          }}}>
             <IonIcon icon={saveOutline}></IonIcon>
           </IonFabButton>
         </IonFab>
-        <IonToast isOpen={doneSaving} onDidDismiss={() => setDoneSaving(false)} message="Saved!" duration={1500} />
+        <IonToast isOpen={doneSaving} onDidDismiss={() => {setDoneSaving(false);
+        setErrMessage(undefined)}} message={(errMessage === undefined) ? "Saved!" : `Error: ${errMessage}`} duration={1500} />
       </IonContent>
     </IonPage>
   );
