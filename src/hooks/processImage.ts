@@ -5,6 +5,7 @@ import Jimp from "jimp";
 import { Directory, Filesystem } from "@capacitor/filesystem";
 // import { useEffect, useState } from "react";
 import MediaScanner from "./MediaScan";
+import { Media } from "@capacitor-community/media";
 const JSONfn = require("json-fn");
 
 /* eslint-disable no-restricted-globals */
@@ -55,11 +56,12 @@ self.onmessage = (e: MessageEvent<string>) => {
             outImage.getBase64(Jimp.MIME_JPEG, async (err, data) => {
               const fileName = new Date().getTime() + ".jpg";
               try {
-                let res = await Filesystem.writeFile({
-                  path: `/storage/emulated/0/Pictures/${fileName}`,
-                  data: data,
-                });
-                MediaScanner.mediaScan({ fileUri: res.uri });
+                // let res = await Filesystem.writeFile({
+                //   path: `/storage/emulated/0/Pictures/${fileName}`,
+                //   data: data,
+                // });
+                // MediaScanner.mediaScan({ fileUri: res.uri });
+                Media.savePhoto({path: data, album: "Pictures"});
                 self.postMessage("done");
                 
                 // setCanSave(true);

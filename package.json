@@ -3,6 +3,7 @@
   "version": "0.1.1",
   "private": true,
   "dependencies": {
+    "@capacitor-community/media": "^4.0.1",
     "@capacitor/android": "4.6.2",
     "@capacitor/app": "4.1.1",
     "@capacitor/assets": "^2.0.4",
